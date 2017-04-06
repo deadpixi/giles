@@ -272,8 +272,8 @@
 {# Create the frames tables for each rule. #}
 {% for rule_name, rule_clause in rules|dictsort %}
   {# The frames tables for the positive matches. #}
-  {% set match_number = 0 %}
   {% for match_clause in rule_clause.matches %}
+    {% set match_number = loop.index0 %}
     CREATE TABLE {{prefix}}_{{rule_name}}_{{match_number}}_frames
     (
       {# The contents of local variables. #}
@@ -418,13 +418,11 @@
         ;
       END;
     {% endif %}
-
-    {% set match_number = match_number + 1 %}
   {% endfor %}
-  {% set match_number = rule_clause.matches|count %} {# Necessary due to scoping in Jinja. #}
 
   {# Frames for each of the inverted matches. #}
   {% for match_clause in rule_clause.inverted_matches %}
+    {% set match_number = loop.index0 + rule_clause.matches|count %}
     CREATE TABLE {{prefix}}_{{rule_name}}_{{match_number}}_frames
     (
       {# The contents of local variables. #}
@@ -599,8 +597,6 @@
         DELETE FROM {{prefix}}_{{rule_name}}_{{match_number}}_frames WHERE parent_frame = new.id;
       END;
     {% endif %}
-
-    {% set match_number = match_number + 1 %}
   {% endfor %}
   {% set match_number = rule_clause.matches|count + rule_clause.inverted_matches|count %}
 

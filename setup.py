@@ -33,7 +33,7 @@ if sys.version_info < (3, 4, 0):
 setup(
     name="giles",
     version=get_release_string(),
-    install_requires=['Jinja2>=2.7.3', 'PyYAML>=3.11'],
+    install_requires=['Jinja2>=2.9.5', 'PyYAML>=3.11'],
     license="Affero GNU General Public License",
     author="Rob King",
     author_email="rking@korelogic.com",
